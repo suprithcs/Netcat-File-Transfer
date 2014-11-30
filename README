@@ -1,0 +1,108 @@
+Lab 1: Socket Programming: netcat part
+
+IMPLEMENTED BY : Puneet Loya(username: ploya) and Suprith Chandrashekharachar(username: suprchan)
+
+The project is implemented in C++11.
+
+The code is modularized into four modules.
+
+netcatPart.cpp : The main file which handles all the network communications like client connect to a server and server reading the data as a buffer.
+
+fileOperationsManager.cpp : File Manager that provides APIs to perform read or write file operations.
+
+optionsManager.cpp : options Manager reads all the command line arguments and fills an option dictionary which stores all the options and their values as key-value pairs.
+
+netcatLogger.cpp: netcatLogger performs the job of printing log statemtents when in verbose mode.
+
+Required Files:
+
+netcatLogger.h
+optionsManager.h
+netcatLogger.cpp
+makefile
+netcatPart_altered.cpp
+fileOperationsManager.h
+netcatPart.cpp
+optionsManager.cpp
+fileOperationsManager.cpp
+
+Tasks Accomplished:
+- Client connection to a remote server using TCP protocol. 
+- Sending data from the client to the server via TCP connection.
+- Buffering recieved data at the server end.
+- Reading from a file at the client end.
+- Generating message digest at both client and server end for checking message integrity.
+- Writing to a file at the server end.
+- Tested for a text transfer of size 39000 bytes. A file was read as an input.
+- Suppport for reading from a specific file offset and n number of bytes.  
+
+System Requirements:
+
+C++ Compiler : g++/4.7.2 OR g++/4.8
+
+Operating System : Ubuntu14.04/Redhat
+
+Compiling:
+
+If executing on a silo.cs.indiana.edu machine, please make sure you execute the below command at the shell prompt:
+
+	module load gcc/4.7.2
+
+A makefile is provided to compile the program. 
+
+Just cd to the directory containing all files related to the project. Please refer the above section to find which all files are required.
+
+Execute by typing in "make" at the shell prompt.
+
+Refer the makefile for more details.
+
+Usage:
+
+netcat_part [OPTIONS] dest_ip [file] 
+ 	-h Print this help screen
+ 	-v Verbose output 
+ 	-m "MSG"	Send the message specified on the command line 
+ 			Warning: if you specify this option, you do not specify a file.
+ 	-p 		port	Set the port to connect on (dflt: 6767) 
+ 	-n bytes 	Number of bytes to send, defaults whole file 
+ 	-o offset 	Offset into file to start sending 
+ 	-l 		Listen on port instead of connecting and write output to file 
+ 			and dest_ip refers to which ip to bind to (dflt: localhost)
+
+
+Examples to run the program: 
+
+To start the server: ./netcat_part -l -p 9000 localhost 
+
+Sample Output: 
+ CLIENT MODE : 0
+ SERVER MODE : 1
+STARTING THE SERVER...
+PORT NO: 9000
+SERVER IS READY TO ACCEPT CONNECTIONS
+
+To start the client and send a file: ./netcat_part -p 9000 localhost small.txt
+
+Sample Output:
+ CLIENT MODE : 1
+ SERVER MODE : 0
+FILE NAME : small.txtSTATUS 0
+READ SUCCESS!. BYTES READ INTO MEMORY: 29PREPARING DIGEST... 
+
+ PROGRAM EXECUTED SUCCESSFULLY
+
+To start the client and send a message in verbose mode: ./netcat_part -v -p 9000 -m "anaconda" localhost
+
+ CLIENT MODE : 1
+ SERVER MODE : 0
+STATUS 0PREPARING DIGEST... 
+SENT DATA : anaconda|733983816d3546364bd82e5bbae19caa73c1f188
+
+ PROGRAM EXECUTED SUCCESSFULLY 
+
+
+Limitations:
+
+File reading and writing is limited to a txt and eng extensions.
+Number of bytes and offset requested must be positive integers.
+
